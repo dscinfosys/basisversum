@@ -5,4 +5,4 @@ Created on 19.01.2026
 '''
 
 
-''' das ist ein Test
+print("das ist ein test")
