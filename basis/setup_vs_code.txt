@@ -1,0 +1,24 @@
+Microsoft Visual Studio Code Python Einstellungen
+=================================================
+
+1.) setzen des Python Path (virtuelle Umgebung)
+
+STRG+SHIFT+P
+
+Python: Create Environment ...
+
+Venv Creates '.venv' virtual environment in the current workspace
+
+Select a Python installation to create the virtual environment
+
+2.) Konfiguration Git Bash als Default
+
+STRG+SHIFT+P
+
+Terminal: Select Default Profile
+
+Auswahl Git Bash
+
+Test: CTRL+SHIFT+~   ---> Git Bash wird geoeffnet
+
+
