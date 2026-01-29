@@ -22,3 +22,8 @@ Auswahl Git Bash
 Test: CTRL+SHIFT+~   ---> Git Bash wird geoeffnet
 
 
+3.) setzen des Python Path in Git Bash
+vi .bashrc
+export PATH="/C/Users/dscin/AppData/Local/Programs/Python/Python314":$PATH
+
+
