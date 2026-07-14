@@ -1,8 +1,8 @@
--- ============================================================================
+-- ============================================================‚=================
 -- Script      : create_basis_schema.sql
 -- Beschreibung: Erstellt ein Oracle 19c Schema
--- Ausführung  : sqlplus sys/<passwort>@<service> as sysdba @create_schema.sql
--- ============================================================================
+-- Ausfuehrung  : sqlplus sys/<passwort>@<service> as sysdba @create_schema.sql
+-- =============================================================================
 
 SET ECHO ON
 SET FEEDBACK ON
