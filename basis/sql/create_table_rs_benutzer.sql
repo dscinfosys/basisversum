@@ -1,10 +1,10 @@
 -- ==================================================================================
 -- Script      : create_table_allg_serviceuser.sql
 -- Beschreibung: Erstellt eine Tabelle ALLG_SERVICEUSER
--- Ausfuehrung  : sqlplus benutzer/passwort@BASISDB @create_table_allg_serviceuser.sql
+-- Ausfuehrung  : sqlplus benutzer/passwort@BASISDB @create_table_rs_benutzer.sql
 -- ===================================================================================
 
--- create_table_allg_serviceuser.sql
+-- create_table_rs_benutzer.sql
 
 SET ECHO ON
 SET FEEDBACK ON
@@ -35,6 +35,6 @@ CREATE TABLE RS_BENUTZER (
     CONSTRAINT PK_RS_BENUTZER PRIMARY KEY (ID)
 );
 
-COMMENT ON TABLE ALLG_SERVICEUSER IS 'Allgemeiner Serviceuser';
+COMMENT ON TABLE RS_BENUTZER IS 'RS Benutzer';
 
 COMMIT;

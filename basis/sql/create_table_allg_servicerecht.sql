@@ -4,7 +4,7 @@
 -- Ausfuehrung  : sqlplus benutzer/passwort@BASISDB @create_table_allg_servicerecht.sql
 -- ====================================================================================
 
--- create_table_allg_serviceuser.sql
+-- create_table_allg_servicerecht.sql
 
 SET ECHO ON
 SET FEEDBACK ON
