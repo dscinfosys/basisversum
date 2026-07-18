@@ -31,10 +31,7 @@ Example with rocky linux 8 (recommended):
 
 # On your CentOS 9 host
 
-mkdir -p $PWD/work/\{src,dist\}
-
-docker run  --rm -it  -v $HOME/build:/work -w /work rockylinux:8 /bin/bash
-
+mkdir -p $PWD/work/{src,dist}
 mkdir build
 
 docker run  --rm -it  -v $HOME/build:/work -w /work rockylinux:8 /bin/bash
