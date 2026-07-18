@@ -1,0 +1,95 @@
+Build a relocatable Python 3.12 tarball on a CentOS 9 host that runs on RHEL 8 and can be installed without root (in $HOME).
+The safest way is to compile inside an EL8-compatible environment (container) to avoid glibc mismatches, and embed an rpath
+so no root-only loader config is needed on the target.
+
+Option: Build inside a rocky linux 8/EL8 container on your CentOS 9 host, produce a relocatable tarball,
+        and unpack it in $HOME on RHEL 8.
+
+
+        Build in an EL8-compatible container, install without root on RHEL 8
+
+        Why this works
+
+            rocky linux 8 (CentOS 8 base, glibc 2.28) or UBI8 ensures binaries run on RHEL 8.
+
+            We add an rpath to the Python binary so it finds libpython in ../lib without LD_LIBRARY_PATH or root ldconfig.
+
+            The result is a self-contained directory you can move anywhere (e.g., $HOME/python-3.12).
+
+Hint: If you need to build Python multiple times, please always start the build process in a fresh container.
+
+
+A1) Build inside container on CentOS 9 host
+-------------------------------------------
+
+Using podman (or docker). Choose one base:
+
+    For maximum compatibility: rockylinux/rockylinux:8
+
+Example with rocky linux 8 (recommended):
+
+
+# On your CentOS 9 host
+
+mkdir -p $PWD/work/\{src,dist\}
+
+docker run  --rm -it  -v $HOME/build:/work -w /work rockylinux:8 /bin/bash
+
+mkdir build
+
+docker run  --rm -it  -v $HOME/build:/work -w /work rockylinux:8 /bin/bash
+
+Inside the container:
+
+# Install build deps
+
+see script --> build_python_on_centos9.sh
+
+Exit the container. Your tarball is at work/dist/python-3.12-manylinux2014.tar.gz.
+
+
+A2) Install without root on RHEL 8 target
+-----------------------------------------
+
+# On RHEL 8 as a normal user
+
+mkdir -p $HOME/opt
+
+tar -C $HOME/opt -xzf python-3.12-linux_x64.tar.gz
+
+# Add to PATH for your shell
+
+echo 'export PATH="$HOME/opt/python-3.12/bin:$PATH"' >> ~/.bashrc
+
+# Optional: ensure TLS works if autodetection fails
+
+echo 'export SSL_CERT_FILE="/etc/pki/tls/certs/ca-bundle.crt"' >> ~/.bashrc
+
+source ~/.bashrc
+
+python3.12 -V
+
+python3.12 -m pip --version
+
+Notes:
+------
+    No root needed on the target: rpath makes libpython discoverable.
+    Avoid PYTHONHOME/PYTHONPATH unless you have a specific reason.
+    For user-only packages by default: python3.12 -m pip install --user <pkg> or set PIP_USER=1.
+
+
+A3) Create a per-user venv (recommended)
+----------------------------------------
+
+python3.12 -m venv ~/venvs/py312
+source ~/venvs/py312/bin/activate
+python -m pip install -U pip
+
+Troubleshooting tips
+    If Python fails to start with 'GLIBC_2.XX not found', you built against too new a glibc.
+    --> Rebuild inside manylinux2014 or UBI8.
+    If 'libpython3.12m.so cannot be found', ensure the rpath flag was applied
+    --> (readelf -d bin/python3.12 | grep RPATH).
+    --> If missing, you can set LD_LIBRARY_PATH=$HOME/opt/python-3.12/lib as a fallback.
+    TLS errors like 'CERTIFICATE_VERIFY_FAILED': set SSL_CERT_FILE=/etc/pki/tls/certs/ca-bundle.crt.
+    To keep the tarball fully user-owned, avoid absolute install paths at extraction time; unpack under $HOME and use PATH exports.
